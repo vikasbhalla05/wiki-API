@@ -55,6 +55,18 @@ app.route('/articles')
 });
 
 
+// routes for the specific article
+app.route('/articles/:articleTitle')
+.get(function(req,res){
+	article.findOne({title: req.params.articleTitle}, function(err, foundTitle){
+		if(foundTitle){
+			res.send(foundTitle);
+		}else{
+			res.send("article not found");
+		}
+	})
+})
+
 app.listen(3000, function() {
 	console.log("app listening on port 3000");
 });
