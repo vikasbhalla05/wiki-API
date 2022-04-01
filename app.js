@@ -66,7 +66,44 @@ app.route('/articles/:articleTitle')
 		}
 	})
 })
-
+.put(function(req, res) {
+	article.update(
+		{title: req.params.articleTitle},
+		{title: req.body.title, content: req.body.content},
+		{ovewrite: true},
+		function(err, result){
+			if(!err){
+				res.send("successfully updated the article");
+			}else{
+				res.send(err)
+			}
+		}
+	)
+})
+.patch(function(req, res){
+	article.update(
+		{title: req.params.articleTitle},
+		{$set: req.body},
+		function(err, result){
+			if(!err){
+				res.send("successfully patched the article");
+			}else{
+				res.send(err)
+			}
+		}
+	)
+})
+.delete(function(req, res){
+	article.deleteOne(
+		{title: req.params.articleTitle},
+		function(err){
+			if(!err){
+				res.send("article deleted success");
+			}else{
+				res.send(err);
+			}
+		})
+})
 app.listen(3000, function() {
 	console.log("app listening on port 3000");
 });
